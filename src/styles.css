@@ -1,0 +1,243 @@
+/* Base styles */
+.app-container {
+    text-align: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #fff;
+    padding: 0;
+    border: 3px solid #5cbdb9;
+    border-radius: 5%;
+    margin: 10px;
+    overflow: hidden;
+}
+
+.header {
+    background: #333;
+    color: white;
+    padding: 10px;
+    font-size: 24px;
+    margin: 0;
+    flex-grow: 1;
+    text-align: right;
+}
+
+.content {
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+    margin-top: 20px;
+    height: calc(100vh - 120px);
+    /* Adjust for header and padding */
+}
+
+.sidebar {
+    min-width: auto;
+    background: #ebf6f5;
+    padding: 10px;
+    height: 100%;
+    overflow: hidden;
+    border: none;
+    /* Remove border */
+    box-shadow: none;
+    /* Remove shadow */
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table,
+th,
+td {
+    border: 1px solid black;
+}
+
+th,
+td {
+    padding: 4px;
+    text-align: center;
+    font-size: 0.875rem;
+}
+
+.zoom-hub {
+    width: 20%;
+    background: #fff;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+button {
+    background: #007bff;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    margin: 0 5px;
+    padding: 8px 16px;
+    font-size: 14px;
+    background-color: #5cbdb9;
+}
+
+button:hover {
+    background-color: #4ba9a5;
+}
+
+.top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: white;
+    padding: 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.back-button {
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    color: #007bff;
+}
+
+.date-time {
+    font-size: 20px;
+    font-weight: 700;
+    flex-grow: 1;
+    text-align: center;
+    color: #5cbdb9;
+    border-bottom: 3px solid #5cbdb9;
+    padding: 5px 15px;
+    margin: 0 auto;
+    width: fit-content;
+    text-shadow: 0px 0px 1px rgb(22, 44, 43);
+    /* Added subtle shadow */
+}
+
+.zoom-preview {
+    width: 100%;
+    height: 150px;
+    background: #eaeaea;
+    border: 1px solid #ccc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+
+.left-panel {
+    width: 250px;
+    min-width: 250px;
+    background: #f4f4f4;
+    padding: 10px;
+}
+
+.image-viewer-container {
+    flex: 1;
+    position: relative;
+    background: white;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+#openseadragon-viewer {
+    width: 100%;
+    height: 100%;
+}
+
+.left-panel h3 {
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.report-button {
+    position: static;
+    margin: 0;
+}
+
+.detection-box {
+    fill: none;
+    stroke: red;
+    stroke-width: 2;
+    vector-effect: non-scaling-stroke;
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+}
+
+.detection-label {
+    position: absolute !important;
+    top: -20px !important;
+    left: 0 !important;
+    background-color: rgba(255, 0, 0, 0.8) !important;
+    color: white !important;
+    padding: 2px 4px !important;
+    font-size: 12px !important;
+    border-radius: 2px !important;
+    white-space: nowrap !important;
+}
+
+.detection-overlay {
+    position: absolute !important;
+    left: 0 !important;
+    top: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    pointer-events: none !important;
+    z-index: 1000 !important;
+    transform-origin: 0 0 !important;
+    transition: opacity 0.3s ease;
+    display: block;
+    /* Ensure initial visibility */
+}
+
+.toggle-boxes-btn {
+    position: static;
+    margin: 0;
+    background-color: #5cbdb9;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 16px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.toggle-boxes-btn:hover {
+    background-color: #4ba9a5;
+    transform: translateY(-1px);
+}
+
+.action-buttons {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    z-index: 1001;
+}
+
+.navigator {
+    z-index: 2000 !important;
+    border: 2px solid #333333 !important;
+    /* Changed to dark grey */
+    border-radius: 4px !important;
+    background-color: white !important;
+    /* Fully opaque background */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important;
+}
+
+.navigator .displayregion {
+    border: 2px solid #333333 !important;
+    /* Match border color */
+    background-color: rgba(92, 189, 185, 0.2) !important;
+    /* Increased opacity from 0.2 to 0.4 */
+    opacity: 1 !important;
+    /* Ensure full opacity */
+}
