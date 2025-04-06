@@ -53,6 +53,9 @@ function App() {
         </button>
         <ReportButton />
       </div>
+      <div className="copyright">
+        © 2025 WSI Viewer by Zakiya. All rights reserved.
+      </div>
     </div>
   );
 }

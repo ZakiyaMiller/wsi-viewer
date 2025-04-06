@@ -40,6 +40,10 @@ npm start
 - OpenSeadragon
 - Material-UI
 
+## Author
+
+Developed by Zakiya
+
 ## License
 
 MIT
