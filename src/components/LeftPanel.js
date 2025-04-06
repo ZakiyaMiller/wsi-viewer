@@ -17,8 +17,12 @@ const Sidebar = () => {
     backgroundColor: '#ebf6f5',
     mb: 2,
     boxShadow: 'none',  // Remove Paper component's default shadow
+    borderBottom: '1px solid rgb(46, 46, 46)', // Add bottom border
     '& .MuiPaper-root': {
       boxShadow: 'none'  // Remove nested Paper components' shadows
+    },
+    '& .MuiTable-root': {
+      borderBottom: '1px solid rgb(46, 46, 46)' // Add border to table
     }
   };
 

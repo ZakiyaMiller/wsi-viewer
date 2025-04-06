@@ -51,43 +51,65 @@ const ImageViewer = ({ isLocked }) => {
       const detections = parseDetectionData();
       console.log(`Found ${detections.length} detections`);
 
+      // Create SVG overlay and append to canvas container
       const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
       svg.setAttribute("class", "detection-overlay");
       svg.setAttribute("id", "detection-overlay");
       svg.setAttribute("viewBox", "0 0 1024 512");
-      svg.style.position = "absolute";
-      svg.style.left = "0";
-      svg.style.top = "0";
-      svg.style.width = "100%";
-      svg.style.height = "100%";
-      svg.style.pointerEvents = "none";
 
-      detections.forEach(([x1, y1, x2, y2]) => {
-        const rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
-        rect.setAttribute("class", "detection-box");
-        rect.setAttribute("x", x1);
-        rect.setAttribute("y", y1);
-        rect.setAttribute("width", x2 - x1);
-        rect.setAttribute("height", y2 - y1);
-        svg.appendChild(rect);
-      });
+      // Append to canvas container instead of viewer element
+      const container = viewer.canvas.parentElement;
+      container.appendChild(svg);
 
-      viewer.element.appendChild(svg);
-
-      const updateOverlay = () => {
+      // Function to update overlay positions
+      const updateOverlayPositions = () => {
         const viewport = viewer.viewport;
         if (!viewport) return;
 
-        const zoom = viewport.getZoom(true);
-        const bounds = viewport.getBounds(true);
-        const transform = `scale(${1/bounds.width}) translate(${-bounds.x}px, ${-bounds.y}px)`;
-        svg.style.transform = transform;
+        const SCALE_FACTOR = 0.85; // Adjust this value to change box size (0.85 = 85% of original size)
+
+        detections.forEach(([x1, y1, x2, y2], index) => {
+          const rect = svg.children[index];
+          if (!rect) return;
+
+          // Calculate center point of the box
+          const centerX = (x1 + x2) / 2;
+          const centerY = (y1 + y2) / 2;
+
+          // Calculate scaled dimensions
+          const width = (x2 - x1) * SCALE_FACTOR;
+          const height = (y2 - y1) * SCALE_FACTOR;
+
+          // Calculate new coordinates based on center and scaled dimensions
+          const newX1 = centerX - (width / 2);
+          const newY1 = centerY - (height / 2);
+
+          // Convert to viewport rectangle
+          const viewportRect = viewport.imageToViewportRectangle(newX1, newY1, width, height);
+          const screenRect = viewport.viewportToViewerElementRectangle(viewportRect);
+
+          // Apply screen coordinates
+          rect.setAttribute("x", screenRect.x-25);
+          rect.setAttribute("y", screenRect.y-55);
+          rect.setAttribute("width", screenRect.width);
+          rect.setAttribute("height", screenRect.height);
+        });
       };
 
-      viewer.addHandler('animation', updateOverlay);
-      viewer.addHandler('zoom', updateOverlay);
-      viewer.addHandler('pan', updateOverlay);
-      updateOverlay();
+      // Create detection boxes
+      detections.forEach(() => {
+        const rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+        rect.setAttribute("class", "detection-box");
+        svg.appendChild(rect);
+      });
+
+      // Add event handlers
+      viewer.addHandler('update-viewport', updateOverlayPositions);
+      viewer.addHandler('animation', updateOverlayPositions);
+      viewer.addHandler('resize', updateOverlayPositions);
+      
+      // Initial position update
+      updateOverlayPositions();
 
     } catch (error) {
       console.error("Error adding overlays:", error);
