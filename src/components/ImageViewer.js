@@ -143,6 +143,18 @@ const ImageViewer = ({ isLocked }) => {
       });
 
       viewer.current.addHandler('open', () => {
+        const navigatorElement = document.querySelector('.navigator');
+        if (navigatorElement) {
+          const patientInfo = document.createElement('div');
+          patientInfo.className = 'patient-info-mini';
+          patientInfo.style.width = `${navigatorElement.offsetWidth}px`;
+          patientInfo.innerHTML = `
+            <div class="info-row"><span class="info-label">Patient ID: </span><span class="info-value">12345</span></div>
+            <div class="info-row"><span class="info-label">Blood: </span><span class="info-value">O+</span></div>
+          `;
+          navigatorElement.insertAdjacentElement('afterend', patientInfo);
+        }
+        
         setTimeout(() => addDetectionOverlays(viewer.current), 500);
       });
     }
