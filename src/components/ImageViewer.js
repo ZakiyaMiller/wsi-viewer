@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from "react";
+import PropTypes from 'prop-types';
 import OpenSeadragon from "openseadragon";
 import wsiImage from "../assets/wsi-image.png";
 import output from "../data/output.json";
@@ -20,10 +21,16 @@ const VIEWER_CONFIG = {
   maxZoomLevel: 10,
   zoomPerClick: 1.4,
   zoomPerScroll: 1.4,
-  debugMode: false
+  debugMode: false,
+  gestureSettingsMouse: {
+    clickToZoom: true,
+    dblClickToZoom: true,
+    dragToPan: true,
+    scrollToZoom: true,
+  }
 };
 
-const ImageViewer = () => {
+const ImageViewer = ({ isLocked }) => {
   const viewerRef = useRef(null);
   const viewer = useRef(null);
 
@@ -88,6 +95,20 @@ const ImageViewer = () => {
   };
 
   useEffect(() => {
+    if (viewer.current) {
+      // Update lock state
+      viewer.current.setMouseNavEnabled(!isLocked);
+      viewer.current.outerTracker.setTracking(!isLocked);
+      viewer.current.innerTracker.setTracking(!isLocked);
+      
+      // Disable viewport changes when locked
+      if (isLocked) {
+        viewer.current.viewport.applyConstraints();
+      }
+    }
+  }, [isLocked]);
+
+  useEffect(() => {
     if (!viewer.current) {
       viewer.current = OpenSeadragon({
         ...VIEWER_CONFIG,
@@ -114,9 +135,17 @@ const ImageViewer = () => {
 
   return (
     <div className="image-viewer-container">
-      <div id="openseadragon-viewer" ref={viewerRef} style={{ width: "100%", height: "100%" }} />
+      <div 
+        id="openseadragon-viewer" 
+        ref={viewerRef} 
+        style={{ width: "100%", height: "100%" }} 
+      />
     </div>
   );
+};
+
+ImageViewer.propTypes = {
+  isLocked: PropTypes.bool.isRequired
 };
 
 export default ImageViewer;

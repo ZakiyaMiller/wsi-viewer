@@ -7,6 +7,7 @@ import "./styles.css";
 function App() {
   const [currentTime, setCurrentTime] = useState(new Date());
   const [boxesVisible, setBoxesVisible] = useState(true);
+  const [isLocked, setIsLocked] = useState(false);
 
   useEffect(() => {
     const timer = setInterval(() => setCurrentTime(new Date()), 1000);
@@ -24,6 +25,10 @@ function App() {
     }
   };
 
+  const toggleLock = () => {
+    setIsLocked(!isLocked);
+  };
+
   return (
     <div className="app-container">
       <header className="top-bar">
@@ -31,9 +36,15 @@ function App() {
       </header>
       <div className="content" style={{ padding: '15px' }}>
         <LeftPanel />
-        <ImageViewer />
+        <ImageViewer isLocked={isLocked} />
       </div>
       <div className="action-buttons">
+        <button 
+          className={`lock-view-btn ${isLocked ? 'locked' : ''}`}
+          onClick={toggleLock}
+        >
+          {isLocked ? 'Unlock View' : 'Lock View'}
+        </button>
         <button 
           className="toggle-boxes-btn"
           onClick={toggleBoxes}
